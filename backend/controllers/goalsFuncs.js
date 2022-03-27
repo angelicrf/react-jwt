@@ -1,14 +1,20 @@
 const asyncHandler = require("express-async-handler");
+const AllGoals = require("../Models/goalsSchema");
 
 const getGoalsFunc = asyncHandler(async (req, res) => {
+    const getData = await AllGoals.find()
     res.status(200).json({
         'success' : true,
-        msg: 'get data'
+        msg: 'get data',
+        getData
         })
 });
 const postGoalsFunc = asyncHandler(async (request, response) => {
    console.log(request.body.name)
     if(request.body.name){
+        const postData = await AllGoals.create({
+            name: request.body.name
+        })
         response.status(200).json({
         'success' : true,
         msg : `post data ${request.body.name}`
