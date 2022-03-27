@@ -6,7 +6,7 @@ const {getGoalsFunc, putGoalsFunc, deleteGoalsFunc, postGoalsFunc} = require("..
 
 router.route('/').get(getGoalsFunc)
 .post(postGoalsFunc) 
-//router.route('/:id').delete(deleteGoalsFunc) 
-//.put( putGoalsFunc) 
+router.route('/:id').delete(deleteGoalsFunc) 
+.put( putGoalsFunc) 
 
 module.exports = router;

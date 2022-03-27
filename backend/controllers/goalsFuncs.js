@@ -25,21 +25,27 @@ const postGoalsFunc = asyncHandler(async (request, response) => {
     }
 });
 const deleteGoalsFunc = asyncHandler(async(request, response) => {
-    if(request.params.id != null){
-        response.status(200).json({
-        'success' : true,
-        msg : `delete data ${request.params.id}`
-        })
-   }else{
-    response.status(400);
-    throw Error("No Deleted Data");
+    const getDataById = await AllGoals.findById(request.params.id);
+  
+    if(!getDataById){
+        response.status(400);
+        throw Error("No Deleted Data");
+   }else{   
+    const deleteData = await AllGoals.deleteOne({ "_id" : request.params.id}); 
+    response.status(200).json(deleteData); 
 }
 });
 
 const putGoalsFunc = asyncHandler( async(request, response) => {
-    response.status(200);
-    throw Error("No Updated Data");
-    
+    const getDataById = await AllGoals.findById(request.params.id);
+  
+    if(!getDataById.id ){
+        response.status(400);
+        throw Error("no such a data");
+    }
+   
+    const updatedData = await AllGoals.findByIdAndUpdate(request.params.id, request.body, {new: true});
+    response.status(200).json(updatedData);
 });
 module.exports = {
     getGoalsFunc,
