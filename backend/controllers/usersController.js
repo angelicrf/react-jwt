@@ -34,17 +34,13 @@ const registerUsersFunc = asyncHandler(async (req, res) => {
 });
 const getMeFunc = asyncHandler(async (request, response) => {
   const userId = request.meUser.id;
-  const {_id, name, email, password } = await AllUser.findOne({userId});
-  if (name && email && password) {
+  console.log(userId)
+   const {_id, email, password } = await AllUser.findOne({userId});
     response.status(200).json({
       success: true,
-      msg: `user data ${name} ${email} ${password}`,
+      msg: `user data ${email} ${password}`,
       userToken: generateJWtToken(_id)
-    });
-  } else {
-    response.status(400);
-    throw new Error("No user Data");
-  }
+    })
 });
 const loginUsersFunc = asyncHandler(async (request, response) => {
   const { email, password } = request.body;
@@ -84,7 +80,7 @@ const putUsersFunc = asyncHandler(async (request, response) => {
 
   if (!getDataById.id) {
     response.status(400);
-    throw Error("no such a data");
+    throw new Error("no such a data");
   }
 
   const updatedData = await AllGoals.findByIdAndUpdate(
