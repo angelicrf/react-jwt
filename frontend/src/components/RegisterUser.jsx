@@ -8,12 +8,12 @@ import Spinner from "../contents/Spinner";
 
 function RegisterUser() {
   const [registerState, setRegisterState] = useState({
-    name: 'Adam',
-    email: 'adam@gmail.com',
-    password : '5656',
-    passwordConf : '5656'
+    name: "",
+    email: "",
+    password: "",
+    passwordConf: "",
   });
-  const {name, email,password,passwordConf} = registerState ;
+  const { name, email, password, passwordConf } = registerState;
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { haveLoading, haveSuccess, haveError, user, msg } = useSelector(
@@ -29,19 +29,44 @@ function RegisterUser() {
     }
     dispatch(reset());
   }, [user, haveError, haveSuccess, msg, navigate, dispatch]);
-  const onChange = (e) => {
-    setRegisterState((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
+  const handleChange = (e) => {
+    e.persist();
+    setRegisterState((prevState) => ({
+      ...prevState,
+      name: e.target.value,
+    }));
+  };
+  const handleChangeEmail = (e) => {
+    e.persist();
+    setRegisterState((prevState) => ({
+      ...prevState,
+      email: e.target.value,
+    }));
+  };
+  const handleChangePassword = (e) => {
+    e.persist();
+    setRegisterState((prevState) => ({
+      ...prevState,
+      password: e.target.value,
+    }));
+  };
+  const handleChangePassordConf = (e) => {
+    e.persist();
+    setRegisterState((prevState) => ({
+      ...prevState,
+      passwordConf: e.target.value,
     }));
   };
   const onSubmit = (e) => {
     e.preventDefault();
-    if (registerState.password !== registerState.passwordConf) {
+    if (password !== passwordConf) {
       toast.error("Password is incorrect");
     } else {
-      const newUserData = {name : registerState.name, email: registerState.email, password : registerState.password };
-      console.log("newUserData " + newUserData)
+      const newUserData = {
+        name: registerState.name,
+        email: registerState.email,
+        password: registerState.password,
+      };
       dispatch(registerUser(newUserData));
     }
   };
@@ -64,10 +89,10 @@ function RegisterUser() {
                 type="text"
                 id="userName"
                 className="form-control"
-                value={name}
+                defaultValue={name}
                 name="userName"
                 placeholder="Enter User Name"
-                onChange={onChange}
+                onChange={handleChange}
               />
               <FaUser className="icon" />
             </div>
@@ -76,10 +101,10 @@ function RegisterUser() {
                 type="email"
                 id="userEmail"
                 className="form-control"
-                value={email}
+                defaultValue={email}
                 name="userEmail"
                 placeholder="Enter User Email"
-                onChange={onChange}
+                onChange={handleChangeEmail}
               />
               <FaUser className="icon" />
             </div>
@@ -88,10 +113,10 @@ function RegisterUser() {
                 type="password"
                 id="userPassword"
                 className="form-control"
-                value={password}
+                defaultValue={password}
                 name="userPassword"
                 placeholder="Enter User Password"
-                onChange={onChange}
+                onChange={handleChangePassword}
               />
               <FaUser className="icon" />
             </div>
@@ -100,10 +125,10 @@ function RegisterUser() {
                 type="password"
                 id="userPasswordConf"
                 className="form-control"
-                value={passwordConf}
+                defaultValue={passwordConf}
                 name="userPasswordConf"
                 placeholder="Confirm password"
-                onChange={onChange}
+                onChange={handleChangePassordConf}
               />
               <FaUser className="icon" />
             </div>
