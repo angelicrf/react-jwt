@@ -10,14 +10,14 @@ function App() {
       <Router>
         <NavBar />
         <div className="container">
-        <Routes>
-          <Route path='/' element={<MainApp />} />
-          <Route path='/login' element={<LoginUser />} />
-          <Route path='/register' element={<RegisterUser />} />
-        </Routes>
-        <div>
-          <h1>App Component React JWT</h1>
-        </div>
+          <Routes>
+            <Route path="/" element={<MainApp />} />
+            <Route path="/login" element={<LoginUser />} />
+            <Route path="/register" element={<RegisterUser />} />
+          </Routes>
+          <div>
+            <h1>App Component React JWT</h1>
+          </div>
         </div>
       </Router>
     </Fragment>

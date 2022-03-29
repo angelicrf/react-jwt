@@ -8,7 +8,7 @@ function RegisterUser() {
     passwordConf: "",
   });
   const { name, email, password, passwordConf } = registerState;
-  const onChange = () => console.log("onChanged")
+  const onChange = () => console.log("onChanged");
   return (
     <Fragment>
       <section className="heading">
@@ -16,57 +16,54 @@ function RegisterUser() {
           <FaUser /> RegisterUser
         </h1>
       </section>
-      <section className="form">
-        <form>
+      <section>
+        <form className="form">
           <div className="form-group">
-           <input
-            type="text"
-            id="userName"
-            className="form-control"
-            value={name}
-            name="userName"
-            placeholder="Enter User Name"
-            onChange={onChange}
-          />
+            <input
+              type="text"
+              id="userName"
+              className="form-control"
+              value={name}
+              name="userName"
+              placeholder="Enter User Name"
+              onChange={onChange}
+            />
           </div>
           <div className="form-group">
-          <input
-            type="email"
-            id="userEmail"
-            className="form-control"
-            value={email}
-            name="userEmail"
-            placeholder="Enter User Email"
-            onChange={onChange}
-          />
+            <input
+              type="email"
+              id="userEmail"
+              className="form-control"
+              value={email}
+              name="userEmail"
+              placeholder="Enter User Email"
+              onChange={onChange}
+            />
           </div>
           <div className="form-group">
-          <input
-            type="password"
-            id="userPassword"
-            className="form-control"
-            value={password}
-            name="userPassword"
-            placeholder="Enter User Password"
-            onChange={onChange}
-          />
+            <input
+              type="password"
+              id="userPassword"
+              className="form-control"
+              value={password}
+              name="userPassword"
+              placeholder="Enter User Password"
+              onChange={onChange}
+            />
           </div>
           <div className="form-group">
-          <input
-            type="password"
-            id="userPasswordConf"
-            className="form-control"
-            value={passwordConf}
-            name="userPasswordConf"
-            placeholder="Confirm password"
-            onChange={onChange}
-          />
+            <input
+              type="password"
+              id="userPasswordConf"
+              className="form-control"
+              value={passwordConf}
+              name="userPasswordConf"
+              placeholder="Confirm password"
+              onChange={onChange}
+            />
           </div>
-          <div className="form-group">
-          <input
-            type="submit"
-            className="btn btn-block"
-          > Submit </input>
+          <div className="form-control">
+            <input type="submit" className="btn btn-block" />
           </div>
         </form>
       </section>
