@@ -2,13 +2,18 @@ import { Fragment, useState, useEffect } from "react";
 import { FaUser } from "react-icons/fa";
 function RegisterUser() {
   const [registerState, setRegisterState] = useState({
-    name: "",
+    name: "angy",
     email: "",
     password: "",
     passwordConf: "",
   });
   const { name, email, password, passwordConf } = registerState;
-  const onChange = () => console.log("onChanged");
+  const onChange = (e) => {
+    setRegisterState(() => ({
+      [e.target.name]: e.target.value,
+    }));
+  };
+  const onSubmit = (e) => e.preventDefault();
   return (
     <Fragment>
       <section className="heading">
@@ -17,7 +22,8 @@ function RegisterUser() {
         </h1>
       </section>
       <section>
-        <form className="form">
+        <div className='input-icon'>
+        <form className="form" onSubmit={onSubmit}>
           <div className="form-group">
             <input
               type="text"
@@ -26,8 +32,8 @@ function RegisterUser() {
               value={name}
               name="userName"
               placeholder="Enter User Name"
-              onChange={onChange}
-            />
+              onChange={onchange}
+            /><FaUser  className='icon'/>
           </div>
           <div className="form-group">
             <input
@@ -38,7 +44,7 @@ function RegisterUser() {
               name="userEmail"
               placeholder="Enter User Email"
               onChange={onChange}
-            />
+            /><FaUser  className='icon'/>
           </div>
           <div className="form-group">
             <input
@@ -49,7 +55,7 @@ function RegisterUser() {
               name="userPassword"
               placeholder="Enter User Password"
               onChange={onChange}
-            />
+            /><FaUser  className='icon'/>
           </div>
           <div className="form-group">
             <input
@@ -60,12 +66,13 @@ function RegisterUser() {
               name="userPasswordConf"
               placeholder="Confirm password"
               onChange={onChange}
-            />
+            /><FaUser  className='icon'/>
           </div>
           <div className="form-control">
             <input type="submit" className="btn btn-block" />
           </div>
         </form>
+        </div>
       </section>
     </Fragment>
   );
