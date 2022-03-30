@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const registerUsersFunc = asyncHandler(async (req, res) => {
+  res.header("Access-Control-Allow-Origin", "*");
   const { name, email, password } = req.body;
   console.log(req.body.name);
   if (name && email && password) {
@@ -43,6 +44,7 @@ const getMeFunc = asyncHandler(async (request, response) => {
     })
 });
 const loginUsersFunc = asyncHandler(async (request, response) => {
+  response.header("Access-Control-Allow-Origin", "*");
   const { email, password } = request.body;
   if (email && password) {
     const findData = await AllUser.findOne({ email });

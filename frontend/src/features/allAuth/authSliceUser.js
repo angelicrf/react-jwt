@@ -16,7 +16,35 @@ export const registerUser = createAsyncThunk(
       return await authService.register(user);
     } catch (error) {
       const message =
-        error.response & error.response.data & error.data.message ||
+        (error.response && error.response.data && error.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkApi.rejectWithValue(message);
+    }
+  }
+);
+export const loginUser = createAsyncThunk(
+  "auth/login",
+  async (user, thunkApi) => {
+    try {
+      return await authService.login(user);
+    } catch (error) {
+      const message =
+       (error.response && error.response.data && error.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkApi.rejectWithValue(message);
+    }
+  }
+);
+export const logoutUser = createAsyncThunk(
+  "auth/logout",
+  (user, thunkApi) => {
+    try {
+      return authService.logout();
+    } catch (error) {
+      const message =
+       (error.response && error.response.data && error.data.message) ||
         error.message ||
         error.toString();
       return thunkApi.rejectWithValue(message);
@@ -45,6 +73,36 @@ export const authSliceFunc = createSlice({
         thisState.user = action.payload;
       })
       .addCase(registerUser.rejected, (thisState, action) => {
+        thisState.haveSuccess = false;
+        thisState.haveLoading = false;
+        thisState.haveError = true;
+        thisState.msg = action.payload;
+        thisState.user = null;
+      })//login
+      .addCase(loginUser.pending, (thisState) => {
+        thisState.haveLoading = true;
+      })
+      .addCase(loginUser.fulfilled, (thisState, action) => {
+        thisState.haveSuccess = true;
+        thisState.haveLoading = false;
+        thisState.user = action.payload;
+      })
+      .addCase(loginUser.rejected, (thisState, action) => {
+        thisState.haveSuccess = false;
+        thisState.haveLoading = false;
+        thisState.haveError = true;
+        thisState.msg = action.payload;
+        thisState.user = null;
+      })//logOut
+      .addCase(logoutUser.pending, (thisState) => {
+        thisState.haveLoading = true;
+      })
+      .addCase(logoutUser.fulfilled, (thisState) => {
+        thisState.haveSuccess = true;
+        thisState.haveLoading = false;
+        thisState.user = null;
+      })
+      .addCase(logoutUser.rejected, (thisState, action) => {
         thisState.haveSuccess = false;
         thisState.haveLoading = false;
         thisState.haveError = true;
