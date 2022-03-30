@@ -4,8 +4,8 @@ import MainApp from "./components/MainApp";
 import LoginUser from "./components/LoginUser";
 import RegisterUser from "./components/RegisterUser";
 import NavBar from "./contents/NavBar";
-import {ToastContainer} from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (

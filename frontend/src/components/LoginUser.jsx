@@ -28,8 +28,8 @@ function LoginUser() {
       toast.error(msg);
     }
     if (haveSuccess || user) {
-      navigate("/");
       isLoggedIn = true;
+      navigate("/");    
     }
     dispatch(reset());
   }, [user, haveError, haveSuccess, msg, navigate, dispatch]);
