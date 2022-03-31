@@ -1,25 +1,33 @@
-import {useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { FaSignInAlt, FaSignOutAlt, FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import {logoutUser} from "../features/allAuth/authSliceUser";
+import { logoutUser, reset } from "../features/allAuth/authSliceUser";
 
 function NavBar() {
   const dispatch = useDispatch();
-  const [isUserLogged,setisUserLogged] = useState(false)
+  const [isUserLogged, setisUserLogged] = useState(false);
   const thisLogOut = () => {
-    console.log("thisLogOut")
-    dispatch(logoutUser())
-    //needs to be changed in useEffect
-    setisUserLogged(false)
+    dispatch(logoutUser());
+    dispatch(reset());
   };
+
   const { haveSuccess } = useSelector((state) => state.auth);
   useEffect(() => {
     if (haveSuccess) {
-      if (!localStorage.getItem("user")) {
-        console.log("userExits")
-        setisUserLogged(true)
+      if (localStorage.getItem("user") !== null) {
+        console.log("userExits");
+        setisUserLogged(true);
+      } else {
+        console.log("userOkSuccess-NotExits");
+        setisUserLogged(false);
       }
+    } else if (!haveSuccess && !localStorage.getItem("user")) {
+      console.log("userNotExits");
+      setisUserLogged(false);
+    } else if (!haveSuccess && localStorage.getItem("user") !== null) {
+      console.log("userExits");
+      setisUserLogged(true);
     }
   }, [isUserLogged, haveSuccess, dispatch]);
   return (
