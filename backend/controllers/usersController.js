@@ -13,7 +13,7 @@ const registerUsersFunc = asyncHandler(async (req, res) => {
       res.status(400).json({
         success: false,
         msg: `user is already registered`,
-        userToken: generateJWtToken(postData._id)
+        userToken: generateJWtToken(postData._id),
       });
     } else {
       const salt = await bcrypt.genSalt(10);
@@ -34,14 +34,10 @@ const registerUsersFunc = asyncHandler(async (req, res) => {
   }
 });
 const getMeFunc = asyncHandler(async (request, response) => {
-  const userId = request.meUser.id;
-  console.log(userId)
-   const {_id, email, password } = await AllUser.findOne({userId});
-    response.status(200).json({
-      success: true,
-      msg: `user data ${email} ${password}`,
-      userToken: generateJWtToken(_id)
-    })
+  response.status(200).json({
+    success: true,
+    user: request.meUser,
+  });
 });
 const loginUsersFunc = asyncHandler(async (request, response) => {
   response.header("Access-Control-Allow-Origin", "*");
@@ -49,16 +45,16 @@ const loginUsersFunc = asyncHandler(async (request, response) => {
   if (email && password) {
     const findData = await AllUser.findOne({ email });
     const userToken = generateJWtToken(findData._id);
-    console.log(await bcrypt.compare(password, findData.password))
-    if (findData && (await bcrypt.compare(password, findData.password))){
+    console.log(await bcrypt.compare(password, findData.password));
+    if (findData && (await bcrypt.compare(password, findData.password))) {
       response.status(200).json({
         success: true,
         msg: `found data ${email}`,
         tooken: userToken,
       });
-    }else{
+    } else {
       response.status(400);
-    throw new Error("Password Does not match data");
+      throw new Error("Password Does not match data");
     }
   } else {
     response.status(400);
@@ -92,11 +88,11 @@ const putUsersFunc = asyncHandler(async (request, response) => {
   );
   response.status(200).json(updatedData);
 });
-const generateJWtToken = id => {
-  return jwt.sign({id}, process.env.JWT_SECRET, {
-    expiresIn : '40d'
+const generateJWtToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: "40d",
   });
-}
+};
 
 module.exports = {
   registerUsersFunc,
