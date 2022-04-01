@@ -1,6 +1,6 @@
 import axios from "axios";
 var qs = require('qs');
-const API_URL = "/api/golas/";
+const API_URL = "/api/goals/";
 
 const newGoal = async (thisToken, goalData) => {
  
@@ -8,11 +8,11 @@ const newGoal = async (thisToken, goalData) => {
     'name': goalData.name 
   });
   console.log("goalData " + JSON.stringify(data));
-  var config = {
+  const config = {
     method: 'post',
     url: '/api/goals/',
     headers: { 
-      'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDQ3OTkyZGVmYzBhMDFmNjMzN2NlMyIsImlhdCI6MTY0ODczNzExNCwiZXhwIjoxNjUyMTkzMTE0fQ.-vPqZqKMVM5iFYE6M239kneGvGXpzXZJnsBLzCFzMio', 
+      'Authorization': `Bearer ${thisToken}`, 
       'Content-Type': 'application/x-www-form-urlencoded'
     },
     data : data
@@ -26,22 +26,24 @@ const newGoal = async (thisToken, goalData) => {
     console.log(error);
   });
 };
-const getGoals = async (thisId, thisToken) => {
+const getGoals = async (thisToken) => {
   const thisOption = {
     headers: {
-      Authorization: `Bearer ${thisToken}`,
+      'Authorization': `Bearer ${thisToken}`,
     },
   };
-  const response = await axios.get(API_URL + thisId, thisOption);
+  const response = await axios.get(API_URL,thisOption);
+  console.log("getAllData " + JSON.stringify(response.data))
   return response.data;
 };
 const deleteGoal = async (thisId, thisToken) => {
   const thisOption = {
     headers: {
-      Authorization: `Bearer ${thisToken}`,
+      'Authorization': `Bearer ${thisToken}`,
     },
   };
   const response = await axios.delete(API_URL + thisId, thisOption);
+  console.log("deleteData " + JSON.stringify(response.data))
   return response.data;
 };
 
