@@ -1,26 +1,16 @@
-import { Fragment, useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { deleteGoals, reset } from "../features/allAuth/goalSlice";
+import { Fragment } from "react";
 
-function GoalItem() {
-  const dispatch = useDispatch();
-  const { goals, msg } = useSelector(
-    (state) => state.goals
-  );
-  useEffect(() => {
-     console.log("GoalAndMSg "  + goals + msg)
-  }, [goals, msg, dispatch]);
-
+function GoalItem({ displayGoal }) {
   return (
-    <Fragment>    
-     <div>
-     {console.log("Goals are " + JSON.stringify(goals))}
-            {goals.map((data) => {
-              console.log("mapData " + JSON.stringify(data))(
-                <h1 key={data.user._id}>{goals.user._id}</h1>
-              );
-            })}
-     </div>
+    <Fragment>
+      <div>
+        <h2>{JSON.stringify(displayGoal.map((data) => data.user._id))}</h2>
+        <h2>{JSON.stringify(displayGoal.map((data) => data.user.name))}</h2>
+        <h2>{JSON.stringify(displayGoal.map((data) => data.user.email))}</h2>
+        <h2>
+          {JSON.stringify(displayGoal.map((data) => data.user.createdAt))}
+        </h2>
+      </div>
     </Fragment>
   );
 }

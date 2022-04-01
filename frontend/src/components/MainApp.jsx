@@ -21,7 +21,6 @@ function MainApp() {
   );
   const goalSubmit = (e) => {
     e.preventDefault();
-    console.log("goalSubmitted.." + goal);
     clearFields(e);
     setGoal("");
     dispatch(assignGoal({ name: goal }));
@@ -37,12 +36,9 @@ function MainApp() {
       toast.error(msg);
     }
     if (goalSuccess) {
-      console.log("goalSuccess " + goalSuccess);
       setisGoal(true);
-      console.log("fromSuccess " + goals.length);
       setGoalInt(goals.length);
       setGoalData(goals);
-      console.log("data from useEffect " + JSON.stringify(goalData.length));
       dispatch(reset());
     }
   }, [goal, goalSuccess, goalLoading, goalError, goals, msg, dispatch]);
@@ -73,25 +69,23 @@ function MainApp() {
             </button>
           </form>
         </div>
-     
       </div>
       <section className="heading">
-          {isGoal ? (
-            <button className="btn btn-block" type="submit" onClick={() => showGoals()}>showData</button>
-          ) : (
-            <div>No Goal has been assigned</div>
-          )}
-        </section>
+        {isGoal ? (
+          <button
+            className="btn btn-block"
+            type="submit"
+            onClick={() => showGoals()}
+          >
+            showData
+          </button>
+        ) : (
+          <div>No Goal has been assigned</div>
+        )}
+      </section>
       <div>
         {goalInt > 0 && goalData[0] !== undefined ? (
-          <>
-            <h2>{JSON.stringify(goalData.map((data) => data.user._id))}</h2>
-            <h2>{JSON.stringify(goalData.map((data) => data.user.name))}</h2>
-            <h2>{JSON.stringify(goalData.map((data) => data.user.email))}</h2>
-            <h2>
-              {JSON.stringify(goalData.map((data) => data.user.createdAt))}
-            </h2>
-          </>
+          <GoalItem displayGoal={goalData} />
         ) : (
           <div>No Goal has been assigned</div>
         )}
