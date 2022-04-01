@@ -4,12 +4,13 @@ function GoalItem({ displayGoal }) {
   return (
     <Fragment>
       <div>
-        <h2>{JSON.stringify(displayGoal.map((data) => data.user._id))}</h2>
-        <h2>{JSON.stringify(displayGoal.map((data) => data.user.name))}</h2>
-        <h2>{JSON.stringify(displayGoal.map((data) => data.user.email))}</h2>
-        <h2>
-          {JSON.stringify(displayGoal.map((data) => data.user.createdAt))}
-        </h2>
+        {displayGoal.map((gl) => (
+          <div key={gl.user._id}>
+            <h2>{gl.user.name}</h2>
+            <h2>{gl.user.email}</h2>
+            <h2>{gl.user._id}</h2>
+          </div>
+        ))}
       </div>
     </Fragment>
   );
