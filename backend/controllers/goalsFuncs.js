@@ -3,10 +3,13 @@ const AllGoals = require("../Models/goalsSchema");
 const AllUsers = require("../Models/userSchema");
 
 const getGoalsFunc = asyncHandler(async (req, res) => {
+  const thisUserId = req.meUser._id;
+  const userWithGoal = await AllGoals.findOne({ user: thisUserId });
   res.status(200).json({
     success: true,
     msg: "goal data from a user",
     user: req.meUser,
+    originalId: userWithGoal
   });
 });
 const postGoalsFunc = asyncHandler(async (request, response) => {
@@ -68,6 +71,7 @@ const deleteGoalsFunc = asyncHandler(async (request, response) => {
         success: true,
         msg: "goal is removed by a user",
         user: request.meUser,
+        originalId: userWithGoal,
         removedData: deleteData,
       });
     } else {

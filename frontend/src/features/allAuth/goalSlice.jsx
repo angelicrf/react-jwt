@@ -41,10 +41,12 @@ export const getAllGoals = createAsyncThunk(
 );
 export const deleteGoals = createAsyncThunk(
   "goal/deleteGoal",
-  (g_id, thunkApi) => {
+  (_, thunkApi) => {
     try {
       const token = thunkApi.getState().auth.user.tooken;
-      return goalService.deleteGoal(g_id,token);
+      const thisDlId = goalService.thisDeleteId[0] ;
+      console.log("thisDlId " + thisDlId)
+      return goalService.deleteGoal(thisDlId,token);
     } catch (error) {
       const message =
         (error.response && error.response.data && error.data.message) ||
@@ -90,12 +92,29 @@ export const goalSliceFunc = createSlice({
         goalState.goalLoading = false;
         goalState.goalSuccess = true;
       })
+      .addCase(getAllGoals.rejected, (goalState, action) => {
+        goalState.goalSuccess = false;
+        goalState.goalLoading = false;
+        goalState.goalError = true;
+        goalState.msg = action.payload;
+        goalState.goals = [];
+      })//delete
+      .addCase(deleteGoals.pending, (goalState) => {
+        goalState.goalLoading = true;
+      })
+      .addCase(deleteGoals.fulfilled, (goalState, action) => { 
+        console.log("PayLoadId " + JSON.stringify(action.payload.originalId._id))  
+        goalState.goals.filter((data) => data.id !== action.payload.originalId._id);
+        goalState.goalLoading = false;
+        goalState.goalSuccess = true;
+        goalService.thisDeleteId = []  
+      })
       .addCase(deleteGoals.rejected, (goalState, action) => {
         goalState.goalSuccess = false;
         goalState.goalLoading = false;
         goalState.goalError = true;
         goalState.msg = action.payload;
-        goalState.goals.filter((data) => data.id !== action.payload.id);
+        goalState.goals = [];
       });
   },
 });

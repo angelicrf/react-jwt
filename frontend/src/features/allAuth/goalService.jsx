@@ -1,7 +1,7 @@
 import axios from "axios";
 var qs = require('qs');
 const API_URL = "/api/goals/";
-
+const thisDeleteId = []
 const newGoal = async (thisToken, goalData) => {
  
   var data = qs.stringify({
@@ -34,9 +34,11 @@ const getGoals = async (thisToken) => {
   };
   const response = await axios.get(API_URL,thisOption);
   console.log("getAllData " + JSON.stringify(response.data))
+  thisDeleteId.push(response.data.originalId._id)
   return response.data;
 };
 const deleteGoal = async (thisId, thisToken) => {
+  console.log("deleteService called")
   const thisOption = {
     headers: {
       'Authorization': `Bearer ${thisToken}`,
@@ -47,5 +49,5 @@ const deleteGoal = async (thisId, thisToken) => {
   return response.data;
 };
 
-const goalService = { deleteGoal, getGoals, newGoal };
+const goalService = { deleteGoal, getGoals, newGoal, thisDeleteId };
 export default goalService;

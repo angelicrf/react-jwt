@@ -31,6 +31,7 @@ function MainApp() {
   const showGoals = () => {
     dispatch(getAllGoals());
   };
+
   useEffect(() => {
     if (goalError) {
       toast.error(msg);
