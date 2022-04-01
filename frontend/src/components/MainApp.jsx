@@ -38,6 +38,10 @@ function MainApp() {
     }
     if (goalSuccess) {
       setisGoal(true);
+      console.log("goalSuccess " + goalSuccess + "isGoal " + isGoal)
+      if(!isGoal){
+      dispatch(getAllGoals())
+      }
       setGoalInt(goals.length);
       setGoalData(goals);
       dispatch(reset());
@@ -72,17 +76,10 @@ function MainApp() {
         </div>
       </div>
       <section className="heading">
-        {isGoal ? (
-          <button
-            className="btn btn-block"
-            type="submit"
-            onClick={() => showGoals()}
-          >
-            showData
-          </button>
-        ) : (
-          <div>No Goal has been assigned</div>
-        )}
+        {!isGoal ?
+          (<div>No Goal has been assigned</div>)
+          : null
+        }
       </section>
       <div>
         {goalInt > 0 && goalData[0] !== undefined ? (
