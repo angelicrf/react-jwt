@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { FaSignInAlt, FaSignOutAlt, FaUser } from "react-icons/fa";
+import { FaSignInAlt, FaSignOutAlt, FaUser, FaDatabase} from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUser, reset } from "../features/allAuth/authSliceUser";
@@ -46,6 +46,11 @@ function NavBar() {
               <FaSignInAlt /> LoginUser
             </Link>
           )}
+        </li>
+        <li>
+          <Link to="/data">
+            <FaDatabase /> Data
+          </Link>
         </li>
         <li>
           <Link to="/register">
