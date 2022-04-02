@@ -13,7 +13,7 @@ export const assignGoal = createAsyncThunk(
   async (data, thunkApi) => {
     try {
       const token = thunkApi.getState().auth.user.tooken;
-      return await goalService.newGoal(token,data);
+      return await goalService.newGoal(token, data);
     } catch (error) {
       const message =
         (error.response && error.response.data && error.data.message) ||
@@ -28,7 +28,7 @@ export const getAllGoals = createAsyncThunk(
   async (_, thunkApi) => {
     try {
       const token = thunkApi.getState().auth.user.tooken;
-      return await goalService.getGoals( token);
+      return await goalService.getGoals(token);
     } catch (error) {
       const message =
         (error.response && error.response.data && error.data.message) ||
@@ -43,9 +43,8 @@ export const deleteGoals = createAsyncThunk(
   (_, thunkApi) => {
     try {
       const token = thunkApi.getState().auth.user.tooken;
-      const thisDlId = goalService.thisDeleteId[0] ;
-      console.log("thisDlId " + JSON.stringify(thisDlId))
-      return goalService.deleteGoal(thisDlId,token);
+      const getDeleteId = goalService.arrayDeleteId[0];
+      return goalService.deleteGoal(getDeleteId, token);
     } catch (error) {
       const message =
         (error.response && error.response.data && error.data.message) ||
@@ -55,6 +54,7 @@ export const deleteGoals = createAsyncThunk(
     }
   }
 );
+
 export const goalSliceFunc = createSlice({
   name: "allGoals",
   initialState,
@@ -75,7 +75,7 @@ export const goalSliceFunc = createSlice({
       .addCase(assignGoal.fulfilled, (goalState, action) => {
         goalState.goals.push(action.payload);
         //goalState.goalSuccess = true;
-        goalState.goalLoading = false;      
+        goalState.goalLoading = false;
       })
       .addCase(assignGoal.rejected, (goalState, action) => {
         //goalState.goalSuccess = false;
@@ -86,7 +86,7 @@ export const goalSliceFunc = createSlice({
       .addCase(getAllGoals.pending, (goalState) => {
         goalState.goalLoading = true;
       })
-      .addCase(getAllGoals.fulfilled, (goalState, action) => {      
+      .addCase(getAllGoals.fulfilled, (goalState, action) => {
         goalState.goalLoading = false;
         goalState.goalSuccess = true;
         goalState.goals = action.payload;
@@ -97,15 +97,17 @@ export const goalSliceFunc = createSlice({
         goalState.goalError = true;
         goalState.msg = action.payload;
         goalState.goals = [];
-      })//delete
+      }) //delete
       .addCase(deleteGoals.pending, (goalState) => {
         goalState.goalLoading = true;
       })
-      .addCase(deleteGoals.fulfilled, (goalState, action) => { 
-        goalState.goals.filter((data) => data.id !== action.payload.originalId._id);
+      .addCase(deleteGoals.fulfilled, (goalState, action) => {
+        goalState.goals.filter(
+          (data) => data.id !== action.payload.originalId._id
+        );
         goalState.goalLoading = false;
         //goalState.goalSuccess = true;
-        goalService.thisDeleteId = []  
+        goalService.thisDeleteId = [];
       })
       .addCase(deleteGoals.rejected, (goalState, action) => {
         //goalState.goalSuccess = false;
