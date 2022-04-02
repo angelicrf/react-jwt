@@ -1,25 +1,24 @@
-import { Fragment } from "react";
+import { Fragment} from "react";
 import { FaUserEdit} from "react-icons/fa";
 import {
   deleteGoals,
-  reset,
 } from "../features/allAuth/goalSlice";
 import { useDispatch } from "react-redux";
 
 function GoalItem({ displayGoal}) {
     const dispatch = useDispatch();
-    const deleteGoalItem = () => {
+    const deleteGoalItem = (delId) => {
      dispatch(deleteGoals());
     };
   return (
     <Fragment>
       <div>
         {displayGoal.map((gl) => (        
-          <div key={gl.user._id}> 
-            <button className="btn" onClick={() => deleteGoalItem()}><FaUserEdit /></button>
-            <h2>{gl.user.name}  </h2>
-            <h2>{gl.user.email}</h2>
-            <h2>{gl.user._id}</h2>
+          <div key={gl._id}>          
+            <button className="btn" onClick={() => deleteGoalItem(gl._id)}><FaUserEdit /></button><span>Goal Id : {gl._id}</span>
+            <h2>User Id: {gl.user}</h2>
+            <h2>Goal Title: {gl.name}</h2>
+            <h2>Created at Date: {gl.createdAt}</h2>
           </div>
         ))}
       </div>

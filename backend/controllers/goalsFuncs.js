@@ -4,7 +4,7 @@ const AllUsers = require("../Models/userSchema");
 
 const getGoalsFunc = asyncHandler(async (req, res) => {
   const thisUserId = req.meUser._id;
-  const userWithGoal = await AllGoals.findOne({ user: thisUserId });
+  const userWithGoal = await AllGoals.find({ user: thisUserId });
   res.status(200).json({
     success: true,
     msg: "goal data from a user",

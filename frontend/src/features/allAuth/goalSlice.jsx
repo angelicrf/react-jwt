@@ -12,7 +12,6 @@ export const assignGoal = createAsyncThunk(
   "goal/addGoal",
   async (data, thunkApi) => {
     try {
-      const testToken = thunkApi.getState().auth.user;
       const token = thunkApi.getState().auth.user.tooken;
       return await goalService.newGoal(token,data);
     } catch (error) {
@@ -45,7 +44,7 @@ export const deleteGoals = createAsyncThunk(
     try {
       const token = thunkApi.getState().auth.user.tooken;
       const thisDlId = goalService.thisDeleteId[0] ;
-      console.log("thisDlId " + thisDlId)
+      console.log("thisDlId " + JSON.stringify(thisDlId))
       return goalService.deleteGoal(thisDlId,token);
     } catch (error) {
       const message =
@@ -74,12 +73,12 @@ export const goalSliceFunc = createSlice({
         goalState.goalLoading = true;
       })
       .addCase(assignGoal.fulfilled, (goalState, action) => {
-        goalState.goalSuccess = true;
-        goalState.goalLoading = false;
         goalState.goals.push(action.payload);
+        //goalState.goalSuccess = true;
+        goalState.goalLoading = false;      
       })
       .addCase(assignGoal.rejected, (goalState, action) => {
-        goalState.goalSuccess = false;
+        //goalState.goalSuccess = false;
         goalState.goalLoading = false;
         goalState.goalError = true;
         goalState.msg = action.payload;
@@ -87,10 +86,10 @@ export const goalSliceFunc = createSlice({
       .addCase(getAllGoals.pending, (goalState) => {
         goalState.goalLoading = true;
       })
-      .addCase(getAllGoals.fulfilled, (goalState, action) => {    
-        goalState.goals.push(action.payload);
+      .addCase(getAllGoals.fulfilled, (goalState, action) => {      
         goalState.goalLoading = false;
         goalState.goalSuccess = true;
+        goalState.goals = action.payload;
       })
       .addCase(getAllGoals.rejected, (goalState, action) => {
         goalState.goalSuccess = false;
@@ -103,14 +102,13 @@ export const goalSliceFunc = createSlice({
         goalState.goalLoading = true;
       })
       .addCase(deleteGoals.fulfilled, (goalState, action) => { 
-        console.log("PayLoadId " + JSON.stringify(action.payload.originalId._id))  
         goalState.goals.filter((data) => data.id !== action.payload.originalId._id);
         goalState.goalLoading = false;
-        goalState.goalSuccess = true;
+        //goalState.goalSuccess = true;
         goalService.thisDeleteId = []  
       })
       .addCase(deleteGoals.rejected, (goalState, action) => {
-        goalState.goalSuccess = false;
+        //goalState.goalSuccess = false;
         goalState.goalLoading = false;
         goalState.goalError = true;
         goalState.msg = action.payload;

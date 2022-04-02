@@ -16,9 +16,10 @@ function MainApp() {
   const [goalInt, setGoalInt] = useState(0);
   const [goalData, setGoalData] = useState([]);
   const dispatch = useDispatch();
-  const { goalSuccess, goalLoading, goalError, goals, msg } = useSelector(
+  const {goalSuccess, goalLoading, goalError, goals, msg } = useSelector(
     (state) => state.goals
   );
+ 
   const goalSubmit = (e) => {
     e.preventDefault();
     clearFields(e);
@@ -31,21 +32,16 @@ function MainApp() {
   const showGoals = () => {
     dispatch(getAllGoals());
   };
-
+  
   useEffect(() => {
     if (goalError) {
       toast.error(msg);
     }
-    if (goalSuccess) {
-      setisGoal(true);
-      console.log("goalSuccess " + goalSuccess + "isGoal " + isGoal)
-      if(!isGoal){
-      dispatch(getAllGoals())
-      }
-      setGoalInt(goals.length);
-      setGoalData(goals);
-      dispatch(reset());
-    }
+      if (goalSuccess) {  
+        setGoalData(goals);
+     // dispatch(reset());
+    }  
+
   }, [goal, goalSuccess, goalLoading, goalError, goals, msg, dispatch]);
   if (goalLoading) {
     return <Spinner />;
@@ -75,19 +71,15 @@ function MainApp() {
           </form>
         </div>
       </div>
-      <section className="heading">
-        {!isGoal ?
-          (<div>No Goal has been assigned</div>)
-          : null
-        }
-      </section>
       <div>
-        {goalInt > 0 && goalData[0] !== undefined ? (
-          <GoalItem displayGoal={goalData} />
-        ) : (
-          <div>No Goal has been assigned</div>
+        {goalSuccess ? (
+          <>
+          {goalData.length > 0 ? (<GoalItem displayGoal={goalData} />) : (<div>No data assigned</div>)}      
+           </>
+       ) : (
+          <button className='btn' onClick={() => showGoals()}> ShowData</button>
         )}
-      </div>
+       </div>
     </Fragment>
   );
 }

@@ -1,7 +1,7 @@
 import axios from "axios";
 var qs = require('qs');
 const API_URL = "/api/goals/";
-const thisDeleteId = []
+let thisDeleteId = []
 const newGoal = async (thisToken, goalData) => {
  
   var data = qs.stringify({
@@ -33,9 +33,8 @@ const getGoals = async (thisToken) => {
     },
   };
   const response = await axios.get(API_URL,thisOption);
-  console.log("getAllData " + JSON.stringify(response.data))
-  thisDeleteId.push(response.data.originalId._id)
-  return response.data;
+  response.data.originalId.map(data => thisDeleteId.push(data._id) )
+  return response.data.originalId;
 };
 const deleteGoal = async (thisId, thisToken) => {
   console.log("deleteService called")
