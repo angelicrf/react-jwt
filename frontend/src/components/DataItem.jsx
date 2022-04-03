@@ -1,22 +1,14 @@
 import React, { Fragment } from "react";
 
-function DataItem({ allData, usrName }) {
+export const DataItem = ({ allData, usrName }) => {
   return (
     <Fragment>
+      <div>User Name is : {usrName}</div>
       <ul>
         {allData.map((dt) => (
-          <li key={dt.id}>{(usrName = dt.name)}</li>
+          <li key={dt.id}>{dt.name}</li>
         ))}
       </ul>
-      <div>
-        {usrName !== "" ? (
-          <div>user name: {usrName}</div>
-        ) : (
-          <div>No user name</div>
-        )}
-      </div>
     </Fragment>
   );
-}
-
-export default DataItem;
+};
